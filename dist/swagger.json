@@ -1,0 +1,465 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API Rest Trabajando.com Web Components",
+    "version": "0.0.1",
+    "title": "Trabajando.com API",
+    "contact": {
+      "email": "sserrano@trabajando.com"
+    }    
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "tags":[
+    {
+      "name":"Applicants"
+    },
+    {
+      "name":"Events"
+    },
+    {
+      "name":"EventTypes"
+    }
+  ],
+  "produces": ["application/json"],
+  "schemes": ["http"],
+  "paths": {
+    "/applicants": {
+      "get": {
+        "tags": [
+          "Applicants"
+          ],
+        "summary": "Returns all the applicants.",  
+        "description": "Returns all the applicants.",
+        "responses": {
+          "200": {
+            "description": "Successfully returned an array of applicants."       
+          }
+        }
+      }
+    },
+    "/applicants/{id}": {
+      "get": {
+        "tags": [
+          "Applicants"
+          ],
+        "summary": "Returns a single applicant.",  
+        "description": "Returns a single applicant by passing their id.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"The id of the user.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned a single applicant."
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": [
+          "Events"
+          ],
+        "summary": "Returns all the events.",
+        "description": "Returns all the events.",
+        "responses": {
+          "200": {
+            "description": "Successfully returned an array of events."            
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Registers an event.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object with all the data of the event.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Event Booked"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/events/{id}": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Returns an event.",
+        "description": "Returns an event filtered by a given id.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"The id the event.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned a single event"
+          },
+          "404":{
+            "description": "Can't find the event"
+          },
+          "400":{
+            "description": "Invalid input data"
+          }
+        }
+      },
+      "put":{
+        "tags": [
+          "Events"
+        ],
+        "summary": "Updates an event.",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[
+          {
+            
+            "in":"path",
+            "name":"id",
+            "description":"Identifier of the target event.",
+            "required":true,
+            "type":"integer"
+          },
+          {            
+            "in":"body",
+            "name":"body",
+            "description":"Object with all the data of the event.",
+            "required":true,
+            "schema":{
+              "$ref":"#/definitions/Event"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success. Event booked."
+          },
+          "500":{
+            "description":"Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Deletes an event.",
+        "description": "Logically deletes an event.",
+        "consumes":[
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in":"path",
+            "name":"id",            
+            "description":"The id the event.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success. Event deleted."
+          },
+          "500": {
+            "description": "Server error."
+          }
+        }
+      }
+    },
+
+    "/eventTypes": {
+      "get": {
+        "tags": [
+          "EventTypes"
+        ],
+        "summary": "Returns all the event types.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Successfully returned an array of event types."
+          }
+        }
+      },
+      "post":{
+        "tags":[
+          "EventTypes"
+        ],
+        "summary":"Registers an event type",
+        "description":"",
+        "produces":[
+          "application/json"
+        ],
+        "parameters":[
+          {
+            "in":"body",
+            "name":"body",
+            "description":"Object with all the event type data",
+            "required":true,
+            "schema":{
+              "$ref":"#/definitions/EventType"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success"
+          },
+          "400":{
+            "description":"Invalid input data"
+          },
+          "500":{
+            "description":"Server error"
+          }
+        }
+      }
+    },
+    "/eventTypes/{id}": {
+      "get": {
+        "tags": ["EventTypes"],
+        "summary":"Returns an event.",
+        "description": "Returns an event type based on an id.",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"The id the event type.",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned a single event type"
+          }
+        }
+      }
+    }
+  },
+  "definitions":{
+    "Applicant":{
+      "type":"object",
+      "properties":{
+        "id":{
+          "type":"integer",
+          "format": "int64"
+        },
+        "name":{
+          "type":"string"
+        },
+        "gender":{
+          "type":"string"
+        },
+        "aliases":{
+          "type":"array",
+          "items":{
+            "type":"string"
+          }
+        },
+        "city":{
+          "type":"string"
+        },
+        "skills":{
+          "type":"array",
+          "items":{
+            "type":"string"
+          }
+        }
+      }      
+    },
+    "Event":{
+      "type":"object",
+      "properties":{
+        "id":{
+          "type":"integer",
+          "format": "int64"
+        },
+        "domainId":{
+          "type":"integer",
+          "format": "int64"
+        },
+        "alias":{
+          "type":"string"
+        },
+        "eventTypeId":{
+          "type":"integer",
+          "format": "int64"
+        },
+        "title":{
+          "type":"string"
+        },
+        "start":{
+          "type":"string"
+        },
+        "end":{
+          "type":"string"
+        },
+        "allDay":{
+          "type":"integer",
+          "format": "int32"
+        },
+        "url":{
+          "type":"string"
+        },
+        "className":{
+          "type":"string"
+        },
+        "editable":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1. Defines if the event can be editable."
+        },
+        "startEditable":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1. Defines if the event can be dragged."
+        },
+        "durationEditable":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1. Defines if the event duration can be editable."
+        },
+        "resourceEditable":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1."
+        },
+        "rendering":{
+          "type":"string"
+        },
+        "overlap":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1. Defines if the event can overlap other events in the same day."
+        },
+        "constraint":{
+          "type":"array",
+          "items":{
+            "type":"string"
+          }
+        },
+        "source":{
+          "type":"string"
+        },
+        "color":{
+          "type":"string"
+        },
+        "backgroundColor":{
+          "type":"string"
+        },
+        "borderColor":{
+          "type":"string"
+        },
+        "textColor":{
+          "type":"string"
+        },
+        "offerId":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Identifier of the event parent offer."
+        },
+        "interviewer":{
+          "type":"string"
+        },
+        "interviewerEmail":{
+          "type":"string"
+        },
+        "creationDate":{
+          "type":"string"
+        },
+        "modificationDate":{
+          "type":"string"
+        },
+        "place":{
+          "type":"string"
+        },
+        "iAmInterviewer":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1. Defines if the creator of the event is the interviewer."
+        },
+        "sendBackupEmail":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Active/inactive, active = 1. Defines if once the event is booked, an email is sent to the interviewer."
+        },
+        "participants":{
+          "type":"array",
+          "description":"Array with applicants id invited to the event",
+          "items":{
+            "type":"integer"
+          }
+        },
+        "applicantComment":{
+          "type":"string"
+        },
+        "internalComment":{
+          "type":"string"
+        },
+        "file":{
+          "type":"string"
+        },
+        "hourStart":{
+          "type":"string"
+        },
+        "hourEnd":{
+          "type":"string"
+        },
+        "deleted":{
+          "type":"integer",
+          "format": "int32",
+          "description":"Deleted = 1. Defines if the event is deleted or available."
+        }
+      }
+    },
+    "EventType":{
+      "type":"object",
+      "properties":{
+        "id":{
+          "type":"integer",
+          "format":"int64"
+        },
+        "domainId":{
+          "type":"integer",
+          "format":"int32"
+        },
+        "alias":{
+          "type":"string"
+        },
+        "typeName":{
+          "type":"string"
+        }
+      }
+    }
+  }
+}
